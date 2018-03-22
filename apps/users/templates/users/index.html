@@ -6,31 +6,33 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Users</title>
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        <style>
+            .error {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <div class="container">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for u in users %}
-                        <tr>
-                            <td><a href="{% url 'show' id=u.id %}">{{u.username}}</a></td>
-                            <td>{{u.first_name}}</td>
-                            <td>{{u.last_name}}</td>
-                            <td>{{u.email}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <p><a href="{% url 'edit' %}" class="btn btn-primary">Edit your information</a>
-            <a href="{% url 'logout' %}" class="btn btn-secondary">Log out</a></p>
+            {% if messages %}
+                {% for message in messages %}
+                    <h4 class="{{message.tags}}">{{message}}</h4>
+                {% endfor %}
+                <hr>
+            {% endif %}
+            <h1>Login</h1>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                {{log_form.as_p}}
+                <input type="submit" value="Submit">
+            </form>
+            <hr>
+            <h1>Register</h1>
+            <form action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
+                {{reg_form.as_p}}
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </body>
 </html>
